@@ -40,7 +40,7 @@
                 th:classappend="${turtle.name == session.raceSession.config.selectedTurtle} ? 'selected-turtle'">
                 <td th:text="${status.count}">1</td>
                 <td th:text="${turtle.name}">Nombre</td>
-                <td th:text="${#numbers.formatDecimal(turtle.finalPosition, 1, 2)}">0.00</td>
+                <td th:text="${#numbers.formatDecimal(turtle.finalPosition, 1, 2)}">0.0</td>
             </tr>
             </tbody>
         </table>
