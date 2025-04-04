@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados de la Carrera</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Resultados de la Carrera</h1>
+
+    <div class="result-message" th:classappend="${session.raceSession.userWon} ? 'success' : 'failure'">
+        <h2 th:if="${session.raceSession.userWon}">¡Felicidades! ¡Has ganado!</h2>
+        <h2 th:unless="${session.raceSession.userWon}">Lo siento, has perdido.</h2>
+
+        <div th:if="${session.raceSession.userWon}" class="winnings">
+            <p>Apuesta inicial: $<span th:text="${session.raceSession.config.betAmount}">0</span></p>
+            <p>Ganancia: $<span th:text="${session.raceSession.winnings}">0</span></p>
+        </div>
+    </div>
+
+    <div class="race-details">
+        <h2>Detalles de la carrera:</h2>
+        <p>Tipo de pista: <span th:text="${#strings.capitalize(session.raceSession.config.trackType)}">Tipo</span></p>
+        <p>Tu elección: <span th:text="${session.raceSession.config.selectedTurtle}">Tortuga</span></p>
+    </div>
+
+    <div class="results-table">
+        <h2>Posiciones finales:</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Posición</th>
+                <th>Tortuga</th>
+                <th>Rendimiento</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="turtle, status : ${session.raceSession.results}"
+                th:classappend="${turtle.name == session.raceSession.config.selectedTurtle} ? 'selected-turtle'">
+                <td th:text="${status.count}">1</td>
+                <td th:text="${turtle.name}">Nombre</td>
+                <td th:text="${#numbers.formatDecimal(turtle.finalPosition, 1, 2)}">0.00</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a href="/new-race" class="btn-primary">Nueva carrera</a>
+</div>
+</body>
+</html>

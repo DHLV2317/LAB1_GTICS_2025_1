@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Configuración de Carrera de Tortugas</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Configuración de Carrera de Tortugas</h1>
+
+  <form th:action="@{/start-race}" th:object="${raceConfig}" method="post">
+    <div class="form-group">
+      <h2>Selecciona tu tortuga:</h2>
+      <div class="turtle-selection">
+        <div th:each="turtle : ${turtles}" class="turtle-card">
+          <input type="radio" th:field="*{selectedTurtle}" th:value="${turtle.name}" required>
+          <div class="turtle-info">
+            <h3 th:text="${turtle.name}">Nombre de la Tortuga</h3>
+            <p>Velocidad: <span th:text="${turtle.speed}">0</span></p>
+            <p>Resistencia: <span th:text="${turtle.resistance}">0</span></p>
+            <p>Suerte: <span th:text="${turtle.luck}">0</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <h2>Tipo de pista:</h2>
+      <select th:field="*{trackType}" required>
+        <option value="">-- Seleccionar --</option>
+        <option th:each="track : ${trackTypes}" th:value="${track}" th:text="${#strings.capitalize(track)}">Tipo de pista</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <h2>Cantidad a apostar:</h2>
+      <input type="number" th:field="*{betAmount}" min="1" step="1" required>
+    </div>
+
+    <button type="submit" class="btn-primary">¡Iniciar Carrera!</button>
+  </form>
+</div>
+</body>
+</html>
